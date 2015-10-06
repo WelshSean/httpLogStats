@@ -16,13 +16,19 @@
 # %b        size of response in bytes
 # %D        time taken to serve request in microseconds
 
+# Load packages
+require(dplyr)
 
 # Lets read in the logs and tidy them up
 # read.csv with a space for seperator should work fine
 # also add some decent column names
+# Use na.strings to mape - in size to NA
 
 setwd("/Users/Sean/ss/R")
-logs = read.table("access.log", sep=" ", header=F, stringsAsFactors=FALSE, col.names = c("IP", "RLN", "RU", "DATETIME", "GMTOFFSET", "REQ", "STATUS", "SIZE", "SVTIME" ))
+logs = read.table("access.log", sep=" ", header=F, stringsAsFactors=FALSE, na.strings = "-", 
+            col.names = c("IP", "RLN", "RU", "DATETIME", "GMTOFFSET", "REQ", "STATUS", "SIZE", "SVTIME"),
+            colClasses = c("character", "character", "character", "character", "character",
+                           "character", "character", "numeric", "numeric"))
 
 # Now lets get the time into R POSIX time format
 
@@ -36,3 +42,12 @@ logs$date <- format(logs$dt, "15/03/30" )
 
 # Grab minutes since start of interval for buckets
 logs$min <- round(as.numeric(difftime(logs$dt, starttime , unit="mins")))
+
+# Now lets start bulding the aggregations using a dplyr pipeline
+
+head(aggregate(SIZE ~ min, data=logs, FUN=sum))
+
+head(logs) %>%
+  select(date, min, SIZE, STATUS, SVTIME) %>%
+  group_by(min) %>%
+  summarise(bytespsec=sum(SIZE), avresp=mean(SVTIME))
