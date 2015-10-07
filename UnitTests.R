@@ -1,4 +1,5 @@
 # Load this file into R or RStudio and run the following function for basic unit tests
+# used setwd() to set your working dir to where the code is
 # Tests use v small contrived logfile test.log
 # runtests()
 

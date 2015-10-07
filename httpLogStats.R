@@ -86,3 +86,4 @@ summary <- subset(summary, select=-c(date)) # Just remove the date column to tid
 summary
 
 }
+
