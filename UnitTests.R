@@ -1,4 +1,5 @@
 # Load this file into R or RStudio and run the following function for basic unit tests
+# Tests use v small contrived logfile test.log
 # runtests()
 
 
