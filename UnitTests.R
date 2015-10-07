@@ -1,3 +1,7 @@
+# Load this file into R or RStudio and run the following function for basic unit tests
+# runtests()
+
+
 library(RUnit)
 source("httpLogStats.R")
 
@@ -19,5 +23,18 @@ test.averageresponse <- function(){
 test.mbpersec <- function (){
   mbsecmin180 <- as.numeric(proclogs(filename="test.log", wdir="/Users/Sean/ss/R/httpLogStats")[2,]["mbytespsec"])
   checkEquals(mbsecmin180, 8)
-  }
+}
+
+
+runtests <- function(){
+testsuite.httpLogStats <- defineTestSuite("httpLogStats",
+                                          dirs = "/Users/Sean/ss/R/httpLogStats",
+                                          testFileRegexp = "^Unit.+\\.R",
+                                          testFuncRegexp = "^test.+",
+                                          rngKind = "Marsaglia-Multicarry",
+                                          rngNormalKind = "Kinderman-Ramage")
+
+testResult <- runTestSuite(testsuite.httpLogStats)
+printTextProtocol(testResult)
+}
 
