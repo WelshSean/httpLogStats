@@ -22,7 +22,11 @@ min mbytespsec   avresp Failures Success                time
 
 
  Where minute is minutes since the start of the sample
+ 
  mbytespsec is the Megabytes transferred per minute
+ 
  avresp is the Mean Response time for requests by minute
+ 
  Failures is the number of failed requests requests in that minute
+ 
  Success is the number of successful requests in that minute
