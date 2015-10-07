@@ -12,7 +12,8 @@ Evaluate HTTP Log Stats using R
                  
  Output will be summarised data of the form
 
-```  min mbytespsec   avresp Failures Success                time
+```  
+min mbytespsec   avresp Failures Success                time
   1    0   11.70955 337287.8        2     700 2015-03-30 05:04:17
   2    1   13.37738 348153.7        2     834 2015-03-30 05:05:17
   3    2   14.67892 280089.1        2     908 2015-03-30 05:06:17
