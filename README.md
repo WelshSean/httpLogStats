@@ -55,5 +55,5 @@ Joining by: "min"
  
  
  ```
- plot(dat$time,dat$mbytespsec, dat$avresp)
+ plot(dat$time, dat$avresp)
  ```
