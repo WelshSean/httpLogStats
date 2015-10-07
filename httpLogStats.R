@@ -44,10 +44,17 @@ logs$date <- format(logs$dt, "15/03/30" )
 logs$min <- round(as.numeric(difftime(logs$dt, starttime , unit="mins")))
 
 # Now lets start bulding the aggregations using a dplyr pipeline
+# for HTTP codes, Success: 200(OK), 304(Not Modified), Failure 500(Internal error)
 
-head(aggregate(SIZE ~ min, data=logs, FUN=sum))
-
-head(logs) %>%
+summary <- logs %>%
   select(date, min, SIZE, STATUS, SVTIME) %>%
   group_by(min) %>%
-  summarise(bytespsec=sum(SIZE), avresp=mean(SVTIME))
+  summarise( bytespsec=sum(SIZE, na.rm=TRUE), avresp=mean(SVTIME, na.rm=TRUE),
+            Failures=sum(STATUS=="500"), Success=sum(STATUS %in% c("200", "304")))
+
+# Add dates back in - build lookup table
+datedf <-logs %>%
+  select (date, min)
+datedf <- datedf[!duplicated(datedf$min),]
+
+summary <- left_join(summary, datedf)
